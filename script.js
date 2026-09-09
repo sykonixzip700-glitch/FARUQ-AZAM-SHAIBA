@@ -1,273 +1,618 @@
-document.addEventListener("DOMContentLoaded", function () {
+/* =========================================
+SHAIBA ❤️ AZAM FARUQ
+WEDDING INVITATION JAVASCRIPT
+========================================= */
 
-    /* =========================
-       GUEST SYSTEM
-    ========================= */
+/* =========================================
+GUEST SYSTEM
+========================================= */
 
-    const guests = {
+const guests = {
 
-        rahim: {
-            name: "Rahim Khan",
-            reminder: true,
-            pickup: true
-        },
+rahim: {
+    name: "Rahim Khan"
+},
 
-        salman: {
-            name: "Salman Ahmed",
-            reminder: false,
-            pickup: false
-        },
+salman: {
+    name: "Salman Ahmed"
+},
 
-        arif: {
-            name: "Arif Ahmad",
-            reminder: true,
-            pickup: false
-        },
+arif: {
+    name: "Arif Ahmad"
+},
 
-        sahil: {
-            name: "Sahil Khan",
-            reminder: true,
-            pickup: true
-        },
+sahil: {
+    name: "Sahil Khan"
+},
 
-        imran: {
-            name: "Imran Ahmad",
-            reminder: false,
-            pickup: false
+imran: {
+    name: "Imran Ahmad"
+}
+
+};
+
+/* =========================================
+PAGE READY
+========================================= */
+
+document.addEventListener(
+"DOMContentLoaded",
+function () {
+
+    /* =================================
+       GUEST NAME
+    ================================= */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const guestId =
+        params.get("guest");
+
+
+    if (
+        guestId &&
+        guests[guestId]
+    ) {
+
+        const guest =
+            guests[guestId];
+
+
+        const guestName =
+            document.getElementById(
+                "guestName"
+            );
+
+
+        const guestNameCard =
+            document.getElementById(
+                "guestNameCard"
+            );
+
+
+        if (guestName) {
+
+            guestName.textContent =
+                guest.name;
+
         }
 
-    };
 
+        if (guestNameCard) {
 
-    /* Read guest from URL */
+            guestNameCard.textContent =
+                guest.name;
 
-    const params = new URLSearchParams(window.location.search);
-    const guestID = params.get("guest");
-
-    const guestBox = document.getElementById("guestBox");
-    const guestNameDisplay = document.getElementById("guestNameDisplay");
-    const reminderStatus = document.getElementById("reminderStatus");
-    const pickupStatus = document.getElementById("pickupStatus");
-
-
-    if (guestID && guests[guestID]) {
-
-        const guest = guests[guestID];
-
-        guestBox.innerHTML =
-            `<span>Assalamualaikum ${guest.name} ❤️</span>`;
-
-        guestNameDisplay.textContent = guest.name;
-
-        if (guest.reminder) {
-            reminderStatus.textContent =
-                "✦ You are requested to join us one day before.";
-        } else {
-            reminderStatus.textContent =
-                "✦ Your invitation is confirmed.";
         }
-
-        if (guest.pickup) {
-            pickupStatus.textContent =
-                "✦ Special pickup arrangement is available.";
-        } else {
-            pickupStatus.textContent =
-                "✦ Please reach the venue at the given time.";
-        }
-
-    } else {
-
-        guestBox.innerHTML =
-            `<span>Assalamualaikum ❤️</span>`;
-
-        guestNameDisplay.textContent = "Dear Guest";
-
-        reminderStatus.textContent =
-            "✦ You are warmly invited.";
-
-        pickupStatus.textContent =
-            "✦ Please reach the venue at the given time.";
 
     }
 
 
-    /* =========================
-       COUNTDOWN
-    ========================= */
+    /* =================================
+       ELEMENTS
+    ================================= */
 
-    const weddingDate =
-        new Date("2026-11-07T13:00:00");
-
-    function updateCountdown() {
-
-        const now = new Date();
-
-        const difference =
-            weddingDate.getTime() - now.getTime();
-
-        if (difference <= 0) {
-
-            document.getElementById("days").textContent = "00";
-            document.getElementById("hours").textContent = "00";
-            document.getElementById("minutes").textContent = "00";
-            document.getElementById("seconds").textContent = "00";
-
-            return;
-        }
-
-        const days =
-            Math.floor(difference / (1000 * 60 * 60 * 24));
-
-        const hours =
-            Math.floor(
-                (difference / (1000 * 60 * 60)) % 24
-            );
-
-        const minutes =
-            Math.floor(
-                (difference / (1000 * 60)) % 60
-            );
-
-        const seconds =
-            Math.floor(
-                (difference / 1000) % 60
-            );
-
-
-        document.getElementById("days").textContent =
-            String(days).padStart(2, "0");
-
-        document.getElementById("hours").textContent =
-            String(hours).padStart(2, "0");
-
-        document.getElementById("minutes").textContent =
-            String(minutes).padStart(2, "0");
-
-        document.getElementById("seconds").textContent =
-            String(seconds).padStart(2, "0");
-    }
-
-    updateCountdown();
-
-    setInterval(updateCountdown, 1000);
-
-
-    /* =========================
-       ENTER INVITATION
-    ========================= */
-
-    window.scrollToInvitation = function () {
-
-        document.getElementById("invitation")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
-
-    };
-
-
-    /* =========================
-       SCROLL ANIMATION
-    ========================= */
-
-    const sections =
-        document.querySelectorAll("section");
-
-    const observer =
-        new IntersectionObserver(
-            function (entries) {
-
-                entries.forEach(function (entry) {
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.style.opacity = "1";
-                        entry.target.style.transform =
-                            "translateY(0)";
-
-                    }
-
-                });
-
-            },
-            {
-                threshold: 0.12
-            }
+    const enterButton =
+        document.getElementById(
+            "enterButton"
         );
 
 
-    sections.forEach(function (section) {
-
-        section.style.opacity = "0";
-        section.style.transform =
-            "translateY(25px)";
-        section.style.transition =
-            "opacity 0.9s ease, transform 0.9s ease";
-
-        observer.observe(section);
-
-    });
+    const home =
+        document.getElementById(
+            "home"
+        );
 
 
-    /* =========================
-       PHOTO TILT
-    ========================= */
+    const envelopeSection =
+        document.getElementById(
+            "envelopeSection"
+        );
 
-    const photo =
-        document.querySelector(".photo-frame");
 
-    if (photo) {
+    const envelope =
+        document.getElementById(
+            "envelope"
+        );
 
-        photo.addEventListener("mousemove", function (e) {
 
-            const rect =
-                photo.getBoundingClientRect();
+    const mainContent =
+        document.getElementById(
+            "mainContent"
+        );
 
-            const x =
-                e.clientX - rect.left;
 
-            const y =
-                e.clientY - rect.top;
+    /* =================================
+       INITIAL STATE
+    ================================= */
 
-            const rotateY =
-                ((x / rect.width) - 0.5) * 8;
+    if (envelopeSection) {
 
-            const rotateX =
-                ((y / rect.height) - 0.5) * -8;
-
-            photo.style.transform =
-                `perspective(500px)
-                 rotateX(${rotateX}deg)
-                 rotateY(${rotateY}deg)`;
-
-        });
-
-        photo.addEventListener("mouseleave", function () {
-
-            photo.style.transform =
-                "perspective(500px) rotateX(0) rotateY(0)";
-
-        });
+        envelopeSection.style.display =
+            "none";
 
     }
 
 
-    /* =========================
-       GALLERY CLICK
-    ========================= */
+    if (mainContent) {
+
+        mainContent.style.display =
+            "none";
+
+    }
+
+
+    /* =================================
+       ENTER INVITATION
+    ================================= */
+
+    if (enterButton) {
+
+        enterButton.addEventListener(
+            "click",
+            function () {
+
+
+                /* Hide welcome */
+
+                if (home) {
+
+                    home.style.transition =
+                        "opacity 1s ease, transform 1s ease";
+
+                    home.style.opacity =
+                        "0";
+
+                    home.style.transform =
+                        "scale(1.05)";
+
+                }
+
+
+                /* Show envelope */
+
+                setTimeout(
+                    function () {
+
+                        if (home) {
+
+                            home.style.display =
+                                "none";
+
+                        }
+
+
+                        if (envelopeSection) {
+
+                            envelopeSection.style.display =
+                                "flex";
+
+                            envelopeSection.style.opacity =
+                                "0";
+
+                            envelopeSection.style.transform =
+                                "translateY(30px)";
+
+                            envelopeSection.style.transition =
+                                "opacity .8s ease, transform .8s ease";
+
+
+                            requestAnimationFrame(
+                                function () {
+
+                                    envelopeSection.style.opacity =
+                                        "1";
+
+                                    envelopeSection.style.transform =
+                                        "translateY(0)";
+
+                                }
+                            );
+
+                        }
+
+                    },
+                    900
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =================================
+       ENVELOPE OPEN
+    ================================= */
+
+    if (envelope) {
+
+        envelope.addEventListener(
+            "click",
+            function () {
+
+
+                /* Don't repeat */
+
+                if (
+                    envelope.classList.contains(
+                        "open"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                /* Open envelope */
+
+                envelope.classList.add(
+                    "open"
+                );
+
+
+                /* Stop floating */
+
+                envelope.style.animation =
+                    "none";
+
+
+                /* =================================
+                   SHOW MAIN CONTENT
+                ================================= */
+
+                setTimeout(
+                    function () {
+
+                        if (mainContent) {
+
+                            mainContent.style.display =
+                                "block";
+
+                            mainContent.style.opacity =
+                                "0";
+
+                            mainContent.style.transform =
+                                "translateY(30px)";
+
+                            mainContent.style.transition =
+                                "opacity 1s ease, transform 1s ease";
+
+
+                            requestAnimationFrame(
+                                function () {
+
+                                    mainContent.style.opacity =
+                                        "1";
+
+                                    mainContent.style.transform =
+                                        "translateY(0)";
+
+                                }
+                            );
+
+                        }
+
+
+                        /* Scroll to invitation content */
+
+                        setTimeout(
+                            function () {
+
+                                if (mainContent) {
+
+                                    mainContent.scrollIntoView({
+                                        behavior:
+                                            "smooth",
+                                        block:
+                                            "start"
+                                    });
+
+                                }
+
+                            },
+                            400
+                        );
+
+                    },
+                    1800
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =================================
+       COUNTDOWN
+    ================================= */
+
+    const weddingDate =
+        new Date(
+            "2026-11-07T13:00:00+05:30"
+        ).getTime();
+
+
+    function updateCountdown() {
+
+        const now =
+            new Date().getTime();
+
+
+        const distance =
+            weddingDate - now;
+
+
+        const days =
+            document.getElementById(
+                "days"
+            );
+
+
+        const hours =
+            document.getElementById(
+                "hours"
+            );
+
+
+        const minutes =
+            document.getElementById(
+                "minutes"
+            );
+
+
+        const seconds =
+            document.getElementById(
+                "seconds"
+            );
+
+
+        if (
+            !days ||
+            !hours ||
+            !minutes ||
+            !seconds
+        ) {
+
+            return;
+
+        }
+
+
+        /* Wedding day */
+
+        if (distance <= 0) {
+
+            days.textContent =
+                "00";
+
+            hours.textContent =
+                "00";
+
+            minutes.textContent =
+                "00";
+
+            seconds.textContent =
+                "00";
+
+            return;
+
+        }
+
+
+        const d =
+            Math.floor(
+                distance /
+                (1000 * 60 * 60 * 24)
+            );
+
+
+        const h =
+            Math.floor(
+                (
+                    distance %
+                    (1000 * 60 * 60 * 24)
+                ) /
+                (1000 * 60 * 60)
+            );
+
+
+        const m =
+            Math.floor(
+                (
+                    distance %
+                    (1000 * 60 * 60)
+                ) /
+                (1000 * 60)
+            );
+
+
+        const s =
+            Math.floor(
+                (
+                    distance %
+                    (1000 * 60)
+                ) /
+                1000
+            );
+
+
+        days.textContent =
+            String(d).padStart(
+                2,
+                "0"
+            );
+
+
+        hours.textContent =
+            String(h).padStart(
+                2,
+                "0"
+            );
+
+
+        minutes.textContent =
+            String(m).padStart(
+                2,
+                "0"
+            );
+
+
+        seconds.textContent =
+            String(s).padStart(
+                2,
+                "0"
+            );
+
+    }
+
+
+    updateCountdown();
+
+
+    setInterval(
+        updateCountdown,
+        1000
+    );
+
+
+    /* =================================
+       FALLING FLOWERS
+    ================================= */
+
+    const flowers = [
+
+        "🌸",
+        "🌺",
+        "🌷",
+        "🌼",
+        "❀",
+        "✿",
+        "✨"
+
+    ];
+
+
+    function createFlower() {
+
+        const flower =
+            document.createElement(
+                "div"
+            );
+
+
+        flower.className =
+            "falling-flower";
+
+
+        flower.textContent =
+            flowers[
+                Math.floor(
+                    Math.random() *
+                    flowers.length
+                )
+            ];
+
+
+        flower.style.left =
+            Math.random() *
+            100 +
+            "vw";
+
+
+        flower.style.fontSize =
+            (
+                12 +
+                Math.random() * 16
+            ) +
+            "px";
+
+
+        const duration =
+            6 +
+            Math.random() * 5;
+
+
+        flower.style.animationDuration =
+            duration +
+            "s";
+
+
+        document.body.appendChild(
+            flower
+        );
+
+
+        setTimeout(
+            function () {
+
+                flower.remove();
+
+            },
+            (duration + 1) * 1000
+        );
+
+    }
+
+
+    /* Initial flowers */
+
+    for (
+        let i = 0;
+        i < 12;
+        i++
+    ) {
+
+        setTimeout(
+            createFlower,
+            i * 250
+        );
+
+    }
+
+
+    /* Continuous flowers */
+
+    setInterval(
+        createFlower,
+        700
+    );
+
+
+    /* =================================
+       GALLERY
+    ================================= */
 
     const galleryImages =
-        document.querySelectorAll(".gallery-item img");
-
-    galleryImages.forEach(function (image) {
-
-        image.addEventListener("click", function () {
-
-            window.open(image.src, "_blank");
-
-        });
-
-    });
+        document.querySelectorAll(
+            ".gallery-grid img"
+        );
 
 
-});
+    galleryImages.forEach(
+        function (img) {
+
+            img.addEventListener(
+                "click",
+                function () {
+
+                    window.open(
+                        img.src,
+                        "_blank"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+}
+
+);
