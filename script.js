@@ -1,618 +1,188 @@
-/* =========================================
-SHAIBA ❤️ AZAM FARUQ
-WEDDING INVITATION JAVASCRIPT
-========================================= */
 
-/* =========================================
-GUEST SYSTEM
-========================================= */
+document.addEventListener("DOMContentLoaded", function () {
+    const intro = document.getElementById("intro");
+    const envelope = document.getElementById("envelope");
+    const tapText = document.getElementById("tapText");
+    const website = document.getElementById("website");
+    const particles = document.getElementById("particles");
 
-const guests = {
-
-rahim: {
-    name: "Rahim Khan"
-},
-
-salman: {
-    name: "Salman Ahmed"
-},
-
-arif: {
-    name: "Arif Ahmad"
-},
-
-sahil: {
-    name: "Sahil Khan"
-},
-
-imran: {
-    name: "Imran Ahmad"
-}
-
-};
-
-/* =========================================
-PAGE READY
-========================================= */
-
-document.addEventListener(
-"DOMContentLoaded",
-function () {
-
-    /* =================================
-       GUEST NAME
-    ================================= */
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-    const guestId =
-        params.get("guest");
-
-
-    if (
-        guestId &&
-        guests[guestId]
-    ) {
-
-        const guest =
-            guests[guestId];
-
-
-        const guestName =
-            document.getElementById(
-                "guestName"
-            );
-
-
-        const guestNameCard =
-            document.getElementById(
-                "guestNameCard"
-            );
-
-
-        if (guestName) {
-
-            guestName.textContent =
-                guest.name;
-
+    /* Guest personalization */
+    const guests = {
+        sanjana: {
+            name: "Sanjana",
+            message: "You are cordially invited to join us on the wedding day."
+        },
+        aarti: {
+            name: "Aarti",
+            message: "You are cordially invited to join us on the wedding day."
+        },
+        aashish: {
+            name: "Aashish",
+            message: "You are cordially invited to join us on the wedding day."
+        },
+        rukmani: {
+            name: "Rukmani",
+            message: "You are warmly invited to join us one day before the wedding."
         }
+    };
 
+    const params = new URLSearchParams(window.location.search);
+    const guestId = (params.get("name") || "").trim().toLowerCase();
+    const guest = guests[guestId];
 
-        if (guestNameCard) {
+    const guestNameElement = document.getElementById("guestName");
+    const guestMessageElement = document.getElementById("guestMessage");
 
-            guestNameCard.textContent =
-                guest.name;
+    if (guest && guestNameElement && guestMessageElement) {
+        guestNameElement.textContent = guest.name;
+        guestMessageElement.textContent = guest.message;
+    }
 
+    /* Envelope opening animation */
+    let envelopeOpened = false;
+
+    function openEnvelope() {
+        if (envelopeOpened) return;
+        envelopeOpened = true;
+
+        envelope.classList.add("open");
+        tapText.textContent = "Opening your invitation...";
+
+        setTimeout(function () {
+            intro.classList.add("hide");
+            website.classList.add("show");
+
+            requestAnimationFrame(function () {
+                website.classList.add("visible");
+            });
+
+            setTimeout(function () {
+                intro.style.display = "none";
+            }, 1100);
+        }, 1500);
+    }
+
+    envelope.addEventListener("click", openEnvelope);
+    envelope.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openEnvelope();
         }
-
-    }
-
-
-    /* =================================
-       ELEMENTS
-    ================================= */
-
-    const enterButton =
-        document.getElementById(
-            "enterButton"
-        );
-
-
-    const home =
-        document.getElementById(
-            "home"
-        );
-
-
-    const envelopeSection =
-        document.getElementById(
-            "envelopeSection"
-        );
-
-
-    const envelope =
-        document.getElementById(
-            "envelope"
-        );
-
-
-    const mainContent =
-        document.getElementById(
-            "mainContent"
-        );
-
-
-    /* =================================
-       INITIAL STATE
-    ================================= */
-
-    if (envelopeSection) {
-
-        envelopeSection.style.display =
-            "none";
-
-    }
-
-
-    if (mainContent) {
-
-        mainContent.style.display =
-            "none";
-
-    }
-
-
-    /* =================================
-       ENTER INVITATION
-    ================================= */
-
-    if (enterButton) {
-
-        enterButton.addEventListener(
-            "click",
-            function () {
-
-
-                /* Hide welcome */
-
-                if (home) {
-
-                    home.style.transition =
-                        "opacity 1s ease, transform 1s ease";
-
-                    home.style.opacity =
-                        "0";
-
-                    home.style.transform =
-                        "scale(1.05)";
-
-                }
-
-
-                /* Show envelope */
-
-                setTimeout(
-                    function () {
-
-                        if (home) {
-
-                            home.style.display =
-                                "none";
-
-                        }
-
-
-                        if (envelopeSection) {
-
-                            envelopeSection.style.display =
-                                "flex";
-
-                            envelopeSection.style.opacity =
-                                "0";
-
-                            envelopeSection.style.transform =
-                                "translateY(30px)";
-
-                            envelopeSection.style.transition =
-                                "opacity .8s ease, transform .8s ease";
-
-
-                            requestAnimationFrame(
-                                function () {
-
-                                    envelopeSection.style.opacity =
-                                        "1";
-
-                                    envelopeSection.style.transform =
-                                        "translateY(0)";
-
-                                }
-                            );
-
-                        }
-
-                    },
-                    900
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =================================
-       ENVELOPE OPEN
-    ================================= */
-
-    if (envelope) {
-
-        envelope.addEventListener(
-            "click",
-            function () {
-
-
-                /* Don't repeat */
-
-                if (
-                    envelope.classList.contains(
-                        "open"
-                    )
-                ) {
-
-                    return;
-
-                }
-
-
-                /* Open envelope */
-
-                envelope.classList.add(
-                    "open"
-                );
-
-
-                /* Stop floating */
-
-                envelope.style.animation =
-                    "none";
-
-
-                /* =================================
-                   SHOW MAIN CONTENT
-                ================================= */
-
-                setTimeout(
-                    function () {
-
-                        if (mainContent) {
-
-                            mainContent.style.display =
-                                "block";
-
-                            mainContent.style.opacity =
-                                "0";
-
-                            mainContent.style.transform =
-                                "translateY(30px)";
-
-                            mainContent.style.transition =
-                                "opacity 1s ease, transform 1s ease";
-
-
-                            requestAnimationFrame(
-                                function () {
-
-                                    mainContent.style.opacity =
-                                        "1";
-
-                                    mainContent.style.transform =
-                                        "translateY(0)";
-
-                                }
-                            );
-
-                        }
-
-
-                        /* Scroll to invitation content */
-
-                        setTimeout(
-                            function () {
-
-                                if (mainContent) {
-
-                                    mainContent.scrollIntoView({
-                                        behavior:
-                                            "smooth",
-                                        block:
-                                            "start"
-                                    });
-
-                                }
-
-                            },
-                            400
-                        );
-
-                    },
-                    1800
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =================================
-       COUNTDOWN
-    ================================= */
-
-    const weddingDate =
-        new Date(
-            "2026-11-07T13:00:00+05:30"
-        ).getTime();
-
+    });
+    envelope.setAttribute("tabindex", "0");
+    envelope.setAttribute("role", "button");
+    envelope.setAttribute("aria-label", "Open wedding invitation");
+
+    /* Countdown */
+    const weddingDate = new Date("2026-11-07T13:00:00+05:30");
 
     function updateCountdown() {
+        const now = new Date();
+        const difference = weddingDate.getTime() - now.getTime();
 
-        const now =
-            new Date().getTime();
+        const daysElement = document.getElementById("days");
+        const hoursElement = document.getElementById("hours");
+        const minutesElement = document.getElementById("minutes");
+        const secondsElement = document.getElementById("seconds");
+        const countdown = document.getElementById("countdown");
 
-
-        const distance =
-            weddingDate - now;
-
-
-        const days =
-            document.getElementById(
-                "days"
-            );
-
-
-        const hours =
-            document.getElementById(
-                "hours"
-            );
-
-
-        const minutes =
-            document.getElementById(
-                "minutes"
-            );
-
-
-        const seconds =
-            document.getElementById(
-                "seconds"
-            );
-
-
-        if (
-            !days ||
-            !hours ||
-            !minutes ||
-            !seconds
-        ) {
-
+        if (difference <= 0) {
+            daysElement.textContent = "00";
+            hoursElement.textContent = "00";
+            minutesElement.textContent = "00";
+            secondsElement.textContent = "00";
+            countdown.setAttribute("aria-label", "The wedding date has arrived");
             return;
-
         }
 
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((difference / (1000 * 60)) % 60);
+        const seconds = Math.floor((difference / 1000) % 60);
 
-        /* Wedding day */
-
-        if (distance <= 0) {
-
-            days.textContent =
-                "00";
-
-            hours.textContent =
-                "00";
-
-            minutes.textContent =
-                "00";
-
-            seconds.textContent =
-                "00";
-
-            return;
-
-        }
-
-
-        const d =
-            Math.floor(
-                distance /
-                (1000 * 60 * 60 * 24)
-            );
-
-
-        const h =
-            Math.floor(
-                (
-                    distance %
-                    (1000 * 60 * 60 * 24)
-                ) /
-                (1000 * 60 * 60)
-            );
-
-
-        const m =
-            Math.floor(
-                (
-                    distance %
-                    (1000 * 60 * 60)
-                ) /
-                (1000 * 60)
-            );
-
-
-        const s =
-            Math.floor(
-                (
-                    distance %
-                    (1000 * 60)
-                ) /
-                1000
-            );
-
-
-        days.textContent =
-            String(d).padStart(
-                2,
-                "0"
-            );
-
-
-        hours.textContent =
-            String(h).padStart(
-                2,
-                "0"
-            );
-
-
-        minutes.textContent =
-            String(m).padStart(
-                2,
-                "0"
-            );
-
-
-        seconds.textContent =
-            String(s).padStart(
-                2,
-                "0"
-            );
-
+        daysElement.textContent = String(days).padStart(2, "0");
+        hoursElement.textContent = String(hours).padStart(2, "0");
+        minutesElement.textContent = String(minutes).padStart(2, "0");
+        secondsElement.textContent = String(seconds).padStart(2, "0");
     }
-
 
     updateCountdown();
+    setInterval(updateCountdown, 1000);
 
+    /* Scroll reveal */
+    const revealElements = document.querySelectorAll(".section-reveal");
 
-    setInterval(
-        updateCountdown,
-        1000
-    );
-
-
-    /* =================================
-       FALLING FLOWERS
-    ================================= */
-
-    const flowers = [
-
-        "🌸",
-        "🌺",
-        "🌷",
-        "🌼",
-        "❀",
-        "✿",
-        "✨"
-
-    ];
-
-
-    function createFlower() {
-
-        const flower =
-            document.createElement(
-                "div"
-            );
-
-
-        flower.className =
-            "falling-flower";
-
-
-        flower.textContent =
-            flowers[
-                Math.floor(
-                    Math.random() *
-                    flowers.length
-                )
-            ];
-
-
-        flower.style.left =
-            Math.random() *
-            100 +
-            "vw";
-
-
-        flower.style.fontSize =
-            (
-                12 +
-                Math.random() * 16
-            ) +
-            "px";
-
-
-        const duration =
-            6 +
-            Math.random() * 5;
-
-
-        flower.style.animationDuration =
-            duration +
-            "s";
-
-
-        document.body.appendChild(
-            flower
-        );
-
-
-        setTimeout(
-            function () {
-
-                flower.remove();
-
-            },
-            (duration + 1) * 1000
-        );
-
-    }
-
-
-    /* Initial flowers */
-
-    for (
-        let i = 0;
-        i < 12;
-        i++
-    ) {
-
-        setTimeout(
-            createFlower,
-            i * 250
-        );
-
-    }
-
-
-    /* Continuous flowers */
-
-    setInterval(
-        createFlower,
-        700
-    );
-
-
-    /* =================================
-       GALLERY
-    ================================= */
-
-    const galleryImages =
-        document.querySelectorAll(
-            ".gallery-grid img"
-        );
-
-
-    galleryImages.forEach(
-        function (img) {
-
-            img.addEventListener(
-                "click",
-                function () {
-
-                    window.open(
-                        img.src,
-                        "_blank"
-                    );
-
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("revealed");
+                    observer.unobserve(entry.target);
                 }
-            );
+            });
+        }, { threshold: 0.12 });
 
-        }
-    );
+        revealElements.forEach(function (element) {
+            observer.observe(element);
+        });
+    } else {
+        revealElements.forEach(function (element) {
+            element.classList.add("revealed");
+        });
+    }
 
+    /* Floating gold particles */
+    const symbols = ["✦", "✧", "❖", "·"];
 
-}
+    for (let i = 0; i < 24; i++) {
+        const particle = document.createElement("span");
+        particle.className = "particle";
+        particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.animationDuration = (9 + Math.random() * 13) + "s";
+        particle.style.animationDelay = (Math.random() * 12) + "s";
+        particle.style.fontSize = (8 + Math.random() * 12) + "px";
+        particles.appendChild(particle);
+    }
 
-);
+    /* Click sparkles */
+    document.addEventListener("click", function (event) {
+        if (event.target.closest("button")) return;
+
+        const sparkle = document.createElement("span");
+        sparkle.textContent = "✦";
+        sparkle.style.position = "fixed";
+        sparkle.style.left = event.clientX + "px";
+        sparkle.style.top = event.clientY + "px";
+        sparkle.style.color = "#d8b45a";
+        sparkle.style.pointerEvents = "none";
+        sparkle.style.zIndex = "20";
+        sparkle.style.fontSize = "16px";
+        sparkle.style.transition = "all 700ms ease";
+        document.body.appendChild(sparkle);
+
+        requestAnimationFrame(function () {
+            sparkle.style.transform = "translateY(-25px) scale(1.5)";
+            sparkle.style.opacity = "0";
+        });
+
+        setTimeout(function () {
+            sparkle.remove();
+        }, 750);
+    });
+
+    /* Back to top button */
+    const backToTop = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", function () {
+        backToTop.classList.toggle("show", window.scrollY > 350);
+    });
+
+    backToTop.addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+});
+            
